@@ -7,7 +7,12 @@ import plotly.express as px
 
 
 # Подготовка датасета
-def build_df(data, platform_value=[], year_value=[], genre_value=[], area=False):
+def build_df(data,
+             platform_value=None,
+             year_value=None,
+             genre_value=None,
+             area=False,
+             ):
 
     if (not isinstance(year_value, list)) or (len(year_value) == 0):
         year_value = data['Year_of_Release'].unique()
@@ -28,7 +33,8 @@ def build_df(data, platform_value=[], year_value=[], genre_value=[], area=False)
     data = data.rename(columns={'Year_of_Release': 'Year', 'Name': 'Value'})
 
     if area:
-        data = data.groupby(by=['Year', 'Platform']).count()[['Value']].reset_index()
+        data = data.groupby(
+            by=['Year', 'Platform']).count()[['Value']].reset_index()
 
     return data
 
@@ -103,8 +109,8 @@ app.layout = html.Div([
             dbc.Col([
                 html.P(
                     children="""
-                    Интерактивные графики помогут узнать больше об игровой индустрии
-                    в 2000-2016 гг.
+                    Интерактивные графики помогут узнать больше 
+                    об игровой индустрии в 2000-2016 гг.
                     """,
                     className="header-description"),
             ],
@@ -135,7 +141,8 @@ app.layout = html.Div([
         [
             dbc.Col([
                 html.Div(
-                    children=f"Количество выбранных игр: {build_df(df).shape[0]}",
+                    children=f"Количество выбранных игр: "
+                             f"{build_df(df).shape[0]}",
                     id="first_output_3")
             ],
                 width={"size": 4, "offset": 1}, )
@@ -239,8 +246,8 @@ def update_multi_options(year_value, platform_value, genre_value):
     if not platform_value:
         raise PreventUpdate
     dff = build_df(df, year_value=year_value, genre_value=genre_value)
-    print(dff['Platform'].unique())
-    return [{'label': i, 'value': i} for i in dff['Platform'].unique()]
+    platform_options = list(dff['Platform'].unique()) + platform_value
+    return [{'label': i, 'value': i} for i in platform_options] 
 
 
 # Обновление выпадающего списка для выбора жанра
@@ -253,8 +260,8 @@ def update_multi_options(year_value, platform_value, genre_value):
     if not genre_value:
         raise PreventUpdate
     dff = build_df(df, year_value=year_value, platform_value=platform_value)
-    print(dff['Genre'].unique())
-    return [{'label': i, 'value': i} for i in dff['Genre'].unique()]
+    gender_options = list(dff['Genre'].unique()) + genre_value
+    return [{'label': i, 'value': i} for i in gender_options]
 
 
 if __name__ == '__main__':
