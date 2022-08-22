@@ -23,9 +23,15 @@
 
 ## Установка
 
-Скачать образ из DockerHub: `docker pull alselezneva/dashboard_games:latest`
+Скачать образ из DockerHub: 
 
-Запустить проект на своем компьютере: `../anaconda3/bin/python -m pip install -U dash-bootstrap-components`
+`docker pull alselezneva/dashboard_games:latest`
+
+`docker run alselezneva/dashboard_games`
+
+Запустить проект на своем компьютере: 
+
+`../anaconda3/bin/python -m pip install -U dash-bootstrap-components`
 
 
 ## Задачи 
